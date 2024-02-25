@@ -1,8 +1,7 @@
 # OpenNMS-Docker
 
-**Author:** Mathew Keeling \
-
-**Date:** 6 February 2024
+**Author:** Mathew Keeling
+**Date:** 24 February 2024
 
 ## Overview
 
