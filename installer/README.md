@@ -8,7 +8,7 @@ This is a set of scripts and tools to install and manage an OpenNMS instance ins
 
 1. Customize your installer by modifying the contents of 
 ```
-/opt/depot/installers/OPENNMS/main/install-docker-openns0-localization.sh
+/opt/depot/installers/OPENNMS/installer/main/install-docker-opennms0-localization.sh
 ```
 
 2. Perform the Minion customization as instructed at the end of the installer. Record the credentials you provided.
