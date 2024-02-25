@@ -16,7 +16,7 @@ ROLE='ROLE_MINION'
 for ACCOUNT in "${ACCOUNTS[@]}"
     do
         curl --request POST \
-        --url 'http://opennms01.ad.contoso.com:8980/opennms/rest/users?hashPassword=true' \
+        --url http://$OPENNMS_CORE_WEB_FQDN:8980/opennms/rest/users?hashPassword=true \
         --header "$BASIC_AUTH_TOKEN" \
         --header 'Content-Type: application/xml' \
         --header 'User-Agent: insomnia/8.6.1' \

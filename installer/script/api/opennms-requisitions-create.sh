@@ -13,7 +13,7 @@ BASIC_AUTH_TOKEN="Authorization: Basic $(echo -n "$ADMIN_USER:$ADMIN_PASS" | bas
 for REQUISITION in "${OPENNMS_CORE_REQUISITIONS[@]}"
     do
         curl --request POST \
-        --url http://opennms01.ad.contoso.com:8980/opennms/rest/requisitions \
+        --url http://$OPENNMS_CORE_WEB_FQDN:8980/opennms/rest/requisitions \
         --header "$BASIC_AUTH_TOKEN" \
         --header 'Content-Type: application/xml' \
         --header 'User-Agent: insomnia/8.6.1' \
