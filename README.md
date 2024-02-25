@@ -9,4 +9,4 @@ This repository contains configuration files from the OpenNMS binaries. Source c
 
 ## Overview
 
-Mathew Keeling's OpenNMS docker installer. I will be updating this often over the next few weeks. Once that is completed--I will be adding the documentation I have been writing over the last couple of months.
+Mathew Keeling's OpenNMS docker installer. This repository will be upgraded often over the next few weeks. Supplemental documentation will be added soon after that.
