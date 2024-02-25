@@ -1,0 +1,7 @@
+# Forced Unmanage Autodiscovery Tagged Devices | Every Five Minutes
+*/5 * * * * /opt/install-location/automation/unmanage-autodiscovery.sh
+
+# Restart the Discovery Daemon, Kicking off a Daily Discovery
+0 0 * * * /opt/install-location/automation/autodiscovery-start-daily.sh
+
+

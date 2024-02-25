@@ -1,0 +1,64 @@
+# Author: Mathew Keeling
+# 
+# Date: 6 February 2024
+---
+version: '3'
+# I believe this is useless because it is not invoked anywhere
+# volumes:
+#  data-postgres: {}
+services:
+  opennms-core-postgres:
+    container_name: opennms-core-postgres
+    hostname: opennms-core-postgres
+    restart: always
+    image: POSTGRES_IMAGE:POSTGRES_TAG
+    command: postgres -c 'max_connections=200'
+    volumes:
+      - /opt/apps/opennms/opennms-core/postgres-data:/var/lib/postgresql/data
+    environment:
+      - TZ=America/New_York
+      - POSTGRES_HOST=opennms-core-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+  opennms-core:
+    container_name: opennms-core
+    hostname: opennms-core
+    restart: always
+    image: OPENNMS_CORE_IMAGE:OPENNMS_CORE_TAG
+    depends_on:
+      - opennms-core-postgres
+    volumes:
+      - /opt/apps/opennms/opennms-core/opennms-etc:/usr/share/opennms/etc
+      - /opt/apps/opennms/opennms-core/opennms-logs:/usr/share/opennms/logs
+      - /opt/apps/opennms/opennms-core/opennms-data:/usr/share/opennms/data
+    command: [ -s ]
+    ports:
+      - 8980:8980
+      - 8101:8101
+      - 51616:61616
+      - 50514:10514/udp
+      - 51162:1162/udp
+      - 59999:9999/udp
+    environment:
+      - TZ=America/New_York
+      - POSTGRES_HOST=opennms-core-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - OPENNMS_DBNAME=opennms
+      - OPENNMS_DBUSER=opennms
+      - OPENNMS_DBPASS=opennms
+      - JAVA_OPTS=-Xms4096m -Xmx4096m -XX:+UseG1GC -XX:+UseStringDeduplication
+    healthcheck:
+      test: [ 'CMD', 'curl', '-f', '-I', 'http://OPENNMS_CORE_WEB_FQDN:OPENNMS_CORE_WEB_PORT/opennms/login.jsp' ]
+      interval: 1m
+      timeout: 5s
+      retries: 3

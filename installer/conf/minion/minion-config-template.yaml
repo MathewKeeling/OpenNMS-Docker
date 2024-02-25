@@ -1,0 +1,28 @@
+# Author: Mathew Keeling
+# 
+# Date: 6 February 2024
+---
+broker-url: "failover:tcp://OPENNMS_CORE_WEB_FQDN:OPENNMS_CORE_WEB_MINION_PORT"
+id: "opennms-OPENNMS_LOCATION-minion-OPENNMS_MINION_NAME"
+location: "opennms-OPENNMS_LOCATION-minion-OPENNMS_MINION_NAME"
+
+karaf:
+  shell:
+    ssh:
+      host: "127.0.0.1"
+
+telemetry:
+  flows:
+    single-port-listener:
+      enabled: true
+      parameters:
+        port: 9999
+
+netmgt:
+  syslog:
+    syslog.listen.interface: "0.0.0.0"
+    syslog.listen.port: 1514
+
+  traps:
+    trapd.listen.interface: "0.0.0.0"
+    trapd.listen.port: 1162

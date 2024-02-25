@@ -1,0 +1,32 @@
+# Author: Mathew Keeling
+# 
+# Date: 6 February 2024
+
+# This YAML is partially sourced from:
+# https://docs.opennms.com/horizon/32/deployment/core/getting-started.html
+---
+version: '3'
+services:
+  opennms-minion-OPENNMS_MINION_NAME:
+    image: OPENNMS_MINION_IMAGE:OPENNMS_MINION_TAG
+    container_name: opennms-minion-OPENNMS_MINION_NAME
+    hostname: opennms-minion-OPENNMS_MINION_NAME
+    restart: always
+    environment:
+      TZ: ${TIMEZONE:-America/New_York}
+      JAVA_MIN_MEM: 512M
+      JAVA_MAX_MEM: 2048M
+    volumes:
+      - /opt/apps/opennms/opennms-minion-OPENNMS_MINION_NAME/minion-config.yaml:/opt/minion/minion-config.yaml
+      - /opt/apps/opennms/opennms-minion-OPENNMS_MINION_NAME/keystore/scv.jce:/opt/minion/scv.jce
+    command: ["-c"]
+    healthcheck:
+      test: "/health.sh"
+      interval: 30s
+      timeout: 6s
+      retries: 3
+    ports:
+      - "5820OPENNMS_MINION_INDEX:8201/tcp" # The ultimate digit in the host port
+      - "6116OPENNMS_MINION_INDEX:1162/udp" # Reflects the index of the minion.
+      - "6151OPENNMS_MINION_INDEX:1514/udp" # Acceptable Values: 1-9
+      - "4999OPENNMS_MINION_INDEX:9999/udp"
